@@ -1,13 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Jua');
+
 #gameWindow{
   border:2px dashed black;
-  width:1000px;
+  width:1200px;
   height:400px;
   margin:auto;
   position:relative;
+  /* overflow: hidden; */
 }
 
 .gameObj{
   border:1px dashed red;
   position:absolute;
   background-repeat: no-repeat;
+}
+
+#scorePane p{
+  margin:1rem;
+  font-size: 1.5rem;
+  font-family: 'Jua', sans-serif;
+  text-align: right;
 }
