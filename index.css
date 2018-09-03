@@ -1,0 +1,9 @@
+#gameWindow{
+  border:2px dashed black;
+  width:1000px;
+  height:400px;
+}
+
+.gameObj{
+  position:absolute;
+}
