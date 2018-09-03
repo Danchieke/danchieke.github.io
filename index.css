@@ -2,8 +2,12 @@
   border:2px dashed black;
   width:1000px;
   height:400px;
+  margin:auto;
+  position:relative;
 }
 
 .gameObj{
+  border:1px dashed red;
   position:absolute;
+  background-repeat: no-repeat;
 }
