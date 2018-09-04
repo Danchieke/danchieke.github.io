@@ -1,9 +1,43 @@
+#gameBorder{
+  margin:auto;
+  width:auto;
+  text-align: center;
+}
+
+.borderStyling{
+  display:inline-block;
+  border:4px #222 ridge;
+  border-radius: 3rem;
+  width:100px;
+  height:600px;
+}
+#bs1{
+  margin-left: auto;
+  background-image: linear-gradient(-90deg, #ccc, #777);
+}
+#bs2{
+  margin-right: auto;
+  background-image: linear-gradient(90deg, #ccc, #777);
+}
+
+#gameCenter{
+  display: inline-block;
+  vertical-align: top;
+}
+
+#gameFloor{
+  height: 100px;
+  background-image:repeating-linear-gradient(
+    45deg, rgba(0,0,0,1), rgba(0,0,0,1) 3px, rgba(0,0,0,0) 4px, rgba(0,0,0,0 ) 19px
+  );
+  border-top:3px black solid;
+}
 
 #gameWindow{
-  border:2px dashed black;
+  display: inline-block;
+  /* border:2px dashed black; */
   width:1200px;
   height:420px;
-  margin:auto;
   position:relative;
   overflow: hidden;
 }
