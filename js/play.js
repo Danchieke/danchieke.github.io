@@ -48,8 +48,8 @@ window.onload = function(){
 
   // End game menu
   var menu = document.createElement("div");
-  menu.innerHTML = "  <ul>\
-    <a href='#'><li>Retry</li></a>\
+  menu.innerHTML = "  <ul id='menu'>\
+    <a href='play.html'><li>Retry</li></a>\
     <a href='leaders.html'><li>Leaderboards</li></a>\
     <a href='index.html'><li>Home</li></a>\
   </ul>";
@@ -118,6 +118,10 @@ window.onload = function(){
   function postGame(){
     scorePane.classList.add("endGamePane"); //makes score bigger
     addLeaders(score);
+    setTimeout(function(){
+      gameWindow.appendChild(menu);
+    },2000);
+
   }
 
   // Add score to leaderboard
