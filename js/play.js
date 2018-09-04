@@ -6,12 +6,24 @@ window.onload = function(){
   // Player object, and div element containing the image
   var player = new Player();
 
+  var leaderStore = localStorage.getItem("leaders");
+  if(leaderStore){
+    if(leaderStore.charAt(0)!="["){
+      leaderStore = "["+leaderStore+"]";
+    }
+    var leaderBoard = JSON.parse(leaderStore);
+  }
+  else{
+    var leaderBoard = [0,0,0,0,0];
+  }
+  console.log(leaderBoard);
+
   // Obstacles, to avoid
   var obstacleList = [];
   var gameTime = 0;
   var nextObjTime = 2000;
   var shiftSpeed = 10;
-  var shiftAccel = 0.004;
+  var shiftAccel = 0.01;
   var shiftDecay = 0.2;
   var baseShiftSpeed = shiftSpeed;
 
@@ -19,7 +31,7 @@ window.onload = function(){
   var scorePane = document.getElementById("scorePane");
   var scoreBox = document.getElementById("score");
   var hiscoreBox = document.getElementById("hiscore");
-  var score = 0, hiscore = 0;
+  var score = 0, hiscore = leaderBoard[0];
 
   // Images used for player animations
   // var runImg = new imageObj("images/RunningTransp.gif",176,203,0);
@@ -33,6 +45,14 @@ window.onload = function(){
 
   // Images for Obstacles
   var wallImg = new imageObj("images/wall.png",63,100,0);
+
+  // End game menu
+  var menu = document.createElement("div");
+  menu.innerHTML = "  <ul>\
+    <a href='#'><li>Retry</li></a>\
+    <a href='leaders.html'><li>Leaderboards</li></a>\
+    <a href='index.html'><li>Home</li></a>\
+  </ul>";
 
   window.onkeydown = keyDepress;
   window.onkeyup = keyRelease;
@@ -75,7 +95,8 @@ window.onload = function(){
 
     // Game continuing or not commands
     if(gameOver){
-      shiftSpeed -= shiftDecay;
+      // shiftSpeed -= shiftDecay;
+      shiftSpeed = 0;
       if(shiftSpeed <= 0 && player.y+player.height-windowSize[1] > -8){
         clearInterval(mainGameLoop);
         shiftSpeed = 0;
@@ -95,7 +116,23 @@ window.onload = function(){
 
   //Operations for after game ends
   function postGame(){
-    scorePane.classList.add("endGamePane");
+    scorePane.classList.add("endGamePane"); //makes score bigger
+    addLeaders(score);
+  }
+
+  // Add score to leaderboard
+  function addLeaders(score){
+    for(let i in leaderBoard){
+      if(score > leaderBoard[i]){
+        for(let j=leaderBoard.length-2;j>i;j--){
+          leaderBoard[j+1] = leaderBoard[j];
+        }
+        leaderBoard[i] = score;
+        break;
+      }
+    }
+    hiscore = leaderBoard[0];
+    localStorage.setItem("leaders",JSON.stringify(leaderBoard));
   }
 
   // Check for collision between player and object

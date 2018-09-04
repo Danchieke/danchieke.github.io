@@ -1,0 +1,52 @@
+html{
+  overflow: hidden;
+}
+
+h1{
+  font-size: 5rem;
+  margin-bottom:0px;
+}
+
+#mainBox{
+  margin:auto;
+  text-align: center;
+}
+
+#header{
+  position:relative;
+  height:50px;
+}
+
+#bannerDiv{
+  height:50px;
+  width:50px;
+  position:absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#menu{
+  font-size: 2rem;
+  list-style: none;
+}
+#menu li{
+  margin:20px;
+  padding:4px;
+  border:4px #222 ridge;
+  border-radius: 3rem;
+  transition-duration: 0.2s;
+}
+#menu a{
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+#menu a:link, #menu a:visited{
+  color:#111;
+}
+#menu a:hover{
+  color:#fff;
+}
+#menu li:hover{
+  background-color: #999;
+}
