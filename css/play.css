@@ -5,17 +5,36 @@
   height:420px;
   margin:auto;
   position:relative;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .gameObj{
+  z-index:-5;
   border:1px dashed red;
   position:absolute;
   background-repeat: no-repeat;
 }
 
-#scorePane p{
-  margin:1rem;
-  font-size: 1.5rem;
+#scorePane{
+  display: inline-block;
+  margin-right:-10px;
+  width:auto+10px;
+  position:absolute;
+  top:0;
+  left:78%;
+  font-size: 2.5rem;
   text-align: right;
+  transition-duration: 1s;
+}
+#scorePane p{
+    margin:1rem;
+}
+
+#scorePane.endGamePane{
+  text-align:center;
+  float:none;
+  left:22%;
+  vertical-align: middle;
+  font-size: 7rem;
+  width:auto;
 }

@@ -16,6 +16,7 @@ window.onload = function(){
   var baseShiftSpeed = shiftSpeed;
 
   // Show total score
+  var scorePane = document.getElementById("scorePane");
   var scoreBox = document.getElementById("score");
   var hiscoreBox = document.getElementById("hiscore");
   var score = 0, hiscore = 0;
@@ -75,10 +76,10 @@ window.onload = function(){
     // Game continuing or not commands
     if(gameOver){
       shiftSpeed -= shiftDecay;
-      if(shiftSpeed <= 0){
-        shiftSpeed = 0;
-
+      if(shiftSpeed <= 0 && player.y+player.height-windowSize[1] > -8){
         clearInterval(mainGameLoop);
+        shiftSpeed = 0;
+        postGame();
       }
     }
     else{
@@ -94,7 +95,7 @@ window.onload = function(){
 
   //Operations for after game ends
   function postGame(){
-
+    scorePane.classList.add("endGamePane");
   }
 
   // Check for collision between player and object
@@ -181,13 +182,13 @@ window.onload = function(){
   // Constructors
   function Player(){
     this.container = document.createElement("div");
-    this.image = "images/RunningTransp.gif";
+    this.image = "images/runTemp.png"//"images/RunningTransp.gif";
     this.x = 0;
     this.y = windowSize[1] - 203;
     this.vsp = 0;
     this.jumpSpd = -21;
     this.duckSpd = 15;
-    this.grav = 0.7;
+    this.grav = 0.8;
     this.width = 176;
     this.height = 203;
 
