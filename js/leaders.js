@@ -7,7 +7,7 @@ window.onload = function(){
     var leaderBoard = JSON.parse(leaderStore);
   }
   else{
-    var leaderBoard = [0,0,0,0,0];
+    var leaderBoard = ["No scores"];
   }
 
   var leaderList = document.getElementById("leaderList");

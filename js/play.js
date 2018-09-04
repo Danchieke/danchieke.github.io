@@ -15,7 +15,7 @@ window.onload = function(){
     var leaderBoard = JSON.parse(leaderStore);
   }
   else{
-    var leaderBoard = [0,0,0,0,0];
+    var leaderBoard = [5,4,3,2,1];
   }
 
   // Obstacles, to avoid
@@ -43,8 +43,10 @@ window.onload = function(){
   var slideImg = new imageObj("images/slideTemp.png",96,75,0);
   var slideUpImg = new imageObj("images/slideTemp.png",96,150,0);
 
+  changeImage(player,runImg);
+
   // Images for Obstacles
-  var wallImg = new imageObj("images/wall.png",63,100,0);
+  var wallImg = new imageObj("images/wall.png",50,100,0);
 
   // End game menu
   var menu = document.createElement("div");
@@ -120,15 +122,14 @@ window.onload = function(){
     addLeaders(score);
     setTimeout(function(){
       gameWindow.appendChild(menu);
-    },2000);
-
+    },1100);
   }
 
   // Add score to leaderboard
   function addLeaders(score){
     for(let i in leaderBoard){
       if(score > leaderBoard[i]){
-        for(let j=leaderBoard.length-2;j>i;j--){
+        for(let j=leaderBoard.length-2;j>=i;j--){
           leaderBoard[j+1] = leaderBoard[j];
         }
         leaderBoard[i] = score;
