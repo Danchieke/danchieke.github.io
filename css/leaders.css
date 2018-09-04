@@ -1,0 +1,37 @@
+body{
+  font-size: 3rem;
+  text-align: center;
+}
+#leaderList{
+  list-style: none;
+  padding:0;
+}
+
+h1{
+  margin:0.5rem;
+}
+
+#homeBut{
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+#homeBut p{
+  margin:20px;
+  padding:20px 4px;
+  border:4px #222 ridge;
+  border-radius: 3rem;
+  transition-duration: 0.2s;
+  background-color: white;
+  width:33%;
+  min-width:300px;
+  margin:auto;
+}
+#homeBut:link, #homeBut:visited{
+  color:#111;
+}
+#homeBut:hover{
+  color:#fff;
+}
+#homeBut p:hover{
+  background-color: #999;
+}

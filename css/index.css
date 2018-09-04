@@ -29,6 +29,9 @@ h1{
 #menu{
   font-size: 2rem;
   list-style: none;
+  padding:0;
+  max-width:600px;
+  margin:auto;
 }
 #menu li{
   margin:20px;

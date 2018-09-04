@@ -6,6 +6,7 @@ window.onload = function(){
   // Player object, and div element containing the image
   var player = new Player();
 
+  // Fetch leaderboard
   var leaderStore = localStorage.getItem("leaders");
   if(leaderStore){
     if(leaderStore.charAt(0)!="["){
@@ -16,7 +17,6 @@ window.onload = function(){
   else{
     var leaderBoard = [0,0,0,0,0];
   }
-  console.log(leaderBoard);
 
   // Obstacles, to avoid
   var obstacleList = [];
