@@ -34,26 +34,26 @@ window.onload = function(){
   var score = 0, hiscore = leaderBoard[0];
 
   // Images used for player animations
-  // var runImg = new imageObj("images/RunningTransp.gif",176,203,0);
-  // var slideDownImg = new imageObj("images/SlideDown.gif",210,208,0);
-  // var slideImg = new imageObj("images/Slide.gif",210,128,0);
-  // var slideUpImg = new imageObj("images/SlideUp.gif",210,208,0);
-  var runImg = new imageObj("images/runTemp.png",96,150,0);
-  var slideDownImg = new imageObj("images/runTemp.png",96,75,0);
-  var slideImg = new imageObj("images/slideTemp.png",96,75,0);
-  var slideUpImg = new imageObj("images/slideTemp.png",96,150,0);
+  // var runImg = new ImageObj("images/RunningTransp.gif",176,203,0);
+  // var slideDownImg = new ImageObj("images/SlideDown.gif",210,208,0);
+  // var slideImg = new ImageObj("images/Slide.gif",210,128,0);
+  // var slideUpImg = new ImageObj("images/SlideUp.gif",210,208,0);
+  var runImg = new ImageObj("images/runTemp.png",100,150,0);
+  var slideDownImg = new ImageObj("images/runTemp.png",100,75,0);
+  var slideImg = new ImageObj("images/slideTemp.png",100,75,0);
+  var slideUpImg = new ImageObj("images/slideTemp.png",100,150,0);
 
   changeImage(player,runImg);
 
   // Images for Obstacles
-  var wallImg = new imageObj("images/wall.png",50,100,0);
+  var wallImg = new ImageObj("images/wall.png",50,100,0);
 
   // End game menu
   var menu = document.createElement("div");
   menu.innerHTML = "  <ul id='menu'>\
-    <a href='play.html'><li>Retry</li></a>\
-    <a href='leaders.html'><li>Leaderboards</li></a>\
-    <a href='index.html'><li>Home</li></a>\
+    <li><a href='play.html'>Retry</a></li>\
+    <li><a href='leaders.html'>Leaderboards</a></li>\
+    <li><a href='index.html'>Home</a></li>\
   </ul>";
 
   window.onkeydown = keyDepress;
@@ -243,7 +243,7 @@ window.onload = function(){
     gameWindow.appendChild(this.container);
   }
 
-  function imageObj(img,w,h,t){
+  function ImageObj(img,w,h,t){
     this.image = img;
     this.width = w;
     this.height = h;

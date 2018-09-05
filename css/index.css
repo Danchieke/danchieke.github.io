@@ -33,23 +33,22 @@ h1{
   max-width:600px;
   margin:auto;
 }
-#menu li{
-  margin:20px;
-  padding:4px;
+#menu a{
+  width:100%;
+  display:inline-block;
+  box-sizing: border-box;
+  font-size: 1.25em;
+  margin:10px auto;
+  padding:20px 40px;
   border:4px #222 ridge;
   border-radius: 3rem;
   transition-duration: 0.2s;
-}
-#menu a{
   text-decoration: none;
-  transition-duration: 0.1s;
 }
 #menu a:link, #menu a:visited{
   color:#111;
 }
 #menu a:hover{
   color:#fff;
-}
-#menu li:hover{
   background-color: #999;
 }
