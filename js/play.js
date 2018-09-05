@@ -20,11 +20,13 @@ window.onload = function(){
 
   // Obstacles, to avoid
   var obstacleList = [];
+  var decoList = [];
   var gameTime = 0;
   var nextObjTime = 2000;
+  var nextDecoTime = 1000;
   var shiftSpeed = 10;
   var shiftAccel = 0.01;
-  var shiftDecay = 0.2;
+  var shiftDecay = 0.4;
   var baseShiftSpeed = shiftSpeed;
 
   // Show total score
@@ -38,15 +40,24 @@ window.onload = function(){
   // var slideDownImg = new ImageObj("images/SlideDown.gif",210,208,0);
   // var slideImg = new ImageObj("images/Slide.gif",210,128,0);
   // var slideUpImg = new ImageObj("images/SlideUp.gif",210,208,0);
-  var runImg = new ImageObj("images/runTemp.png",100,150,0,null,null,null);
-  var slideDownImg = new ImageObj("images/runTemp.png",100,75,0,null,null,null);
-  var slideImg = new ImageObj("images/slideTemp.png",100,75,0,null,null,null);
-  var slideUpImg = new ImageObj("images/slideTemp.png",100,150,0,null,null,null);
+  var runImg = new ImageObj("images/black.png",100,150,0,null,null,null);
+  var slideDownImg = new ImageObj("images/black.png",100,75,0,null,null,null);
+  var slideImg = new ImageObj("images/black.png",100,75,0,null,null,null);
+  var slideUpImg = new ImageObj("images/black.png",100,150,0,null,null,null);
 
   changeImage(player,runImg);
+  player.container.style.zIndex = -2;
 
   // Images for Obstacles
-  var wallImg = new ImageObj("images/wall.png",50,100,0,0,windowSize[1],4);
+  var wallImg = new ImageObj("images/wall.png",50,100,0,(windowSize[1])*0.5,windowSize[1],2);
+  var birdImg = new ImageObj("images/bird.gif",100,75,0,0,windowSize[1]*0.5,3);
+  var holeImg = new ImageObj("images/hole.png",300,104,0,windowSize[1]-50,0,1);
+  var objImages = [wallImg,wallImg,birdImg,holeImg];
+
+  // Images for decoration
+  var cloudImg = new ImageObj("images/cloud.png",150,100,0,0,windowSize[1]/3,3);
+  var treeImg = new ImageObj("images/tree.png",100,150,0,windowSize[1]-200,windowSize[1]-20,3);
+  var decoImages = [cloudImg,treeImg];
 
   // End game menu
   var menu = document.createElement("div");
@@ -68,7 +79,7 @@ window.onload = function(){
   function gameLoop(interval){
     doGrav(player);
 
-    // Move and delete obstacles
+    // Move, draw and delete obstacles
     for(let i=0; i<obstacleList.length; i++){
       if(obstacleList[i].x+obstacleList[i].width < 0){
         obstacleList[i].container.remove();
@@ -80,6 +91,18 @@ window.onload = function(){
         draw(obstacleList[i]);
       }
     }
+    //Move, draw and delete decorations
+    for(let i=0; i<decoList.length; i++){
+      if(decoList[i].x+decoList[i].width < 0){
+        decoList[i].container.remove();
+        decoList.splice(i, 1);
+        i--;
+      }
+      else{
+        decoList[i].x -= shiftSpeed*0.5;
+        draw(decoList[i]);
+      }
+    }
 
     //Collision check
     for(let obstacle of obstacleList){
@@ -88,8 +111,18 @@ window.onload = function(){
 
     // Add obstacles
     if(gameTime >= nextObjTime){
-      obstacleList.push(new Obstacle(wallImg));
-      nextObjTime += 8000/shiftSpeed + 8000*Math.random()/shiftSpeed;
+      let newObs = new Obstacle(objImages[randInt(0,objImages.length)]);
+      obstacleList.push(newObs);
+      nextObjTime += 8000/shiftSpeed + 8000*Math.random()/shiftSpeed
+        + newObs.width*interval/shiftSpeed;
+    }
+    // Add decorations
+    if(gameTime >= nextDecoTime){
+      let newDeco = new Obstacle(decoImages[randInt(0,decoImages.length)]);
+      decoList.push(newDeco);
+      newDeco.container.style.zIndex = -10;
+      nextDecoTime += 8000/shiftSpeed + 16000*Math.random()/shiftSpeed
+        + newDeco.width*interval/shiftSpeed;
     }
 
     //Draw the player location & image
@@ -97,10 +130,12 @@ window.onload = function(){
 
     // Game continuing or not commands
     if(gameOver){
-      // shiftSpeed -= shiftDecay;
-      shiftSpeed = 0;
+      shiftSpeed -= shiftDecay;
+      // choose above line or below line
+      // shiftSpeed = 0;
       if(shiftSpeed <= 0 && player.y+player.height-windowSize[1] > -8){
         clearInterval(mainGameLoop);
+        player.y = windowSize[1] - player.height;
         shiftSpeed = 0;
         postGame();
       }
@@ -118,11 +153,13 @@ window.onload = function(){
 
   //Operations for after game ends
   function postGame(){
+    draw(player);
     scorePane.classList.add("endGamePane"); //makes score bigger
     addLeaders(score);
     setTimeout(function(){
       gameWindow.appendChild(menu);
     },1100);
+    console.log(decoList);
   }
 
   // Add score to leaderboard
@@ -142,10 +179,18 @@ window.onload = function(){
 
   // Check for collision between player and object
   function collisionCheck(thisPlayer,thisObs){
-    if(thisPlayer.x < thisObs.x + thisObs.width){
-      if(thisPlayer.x + thisPlayer.width > thisObs.x){
-        if(thisPlayer.y < thisObs.y + thisObs.height){
-          if(thisPlayer.y + thisPlayer.height > thisObs.y){
+    let px1 = thisPlayer.x + thisPlayer.width*0.15,
+        px2 = thisPlayer.x + thisPlayer.width*0.85,
+        py1 = thisPlayer.y + thisPlayer.height*0.05,
+        py2 = thisPlayer.y + thisPlayer.height*0.95;
+    let ox1 = thisObs.x + thisObs.width*0.05,
+        ox2 = thisObs.x + thisObs.width*0.95,
+        oy1 = thisObs.y + thisObs.height*0.05,
+        oy2 = thisObs.y + thisObs.height*0.95;
+    if(px1 < ox2){
+      if(px2 > ox1){
+        if(py1 < oy2){
+          if(py2 > oy1){
             return true;
           }
         }
@@ -221,6 +266,10 @@ window.onload = function(){
     thisPlayer.height = imgObj.height;
   }
 
+  function randInt(low,high){
+    return Math.floor(low + Math.random()*(high-low));
+  }
+
   // Constructors
   function Player(){
     this.container = document.createElement("div");
@@ -259,7 +308,8 @@ window.onload = function(){
     this.width = imgObj.width;
     this.height = imgObj.height;
     this.x = windowSize[0];
-    this.y = imgObj.minHeight + Math.floor(Math.random()*imgObj.numHeight)/(imgObj.numHeight-1) * (imgObj.maxHeight - imgObj.minHeight - this.height);
+    this.y = imgObj.numHeight <= 1 ? imgObj.minHeight :
+      imgObj.minHeight + randInt(0,imgObj.numHeight)/(imgObj.numHeight-1) *      (imgObj.maxHeight - imgObj.minHeight - this.height);
 
     this.container.className += " gameObj";
     this.container.style.backgroundImage = "url('"+this.image+"')";
