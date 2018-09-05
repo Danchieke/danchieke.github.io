@@ -38,15 +38,15 @@ window.onload = function(){
   // var slideDownImg = new ImageObj("images/SlideDown.gif",210,208,0);
   // var slideImg = new ImageObj("images/Slide.gif",210,128,0);
   // var slideUpImg = new ImageObj("images/SlideUp.gif",210,208,0);
-  var runImg = new ImageObj("images/runTemp.png",100,150,0);
-  var slideDownImg = new ImageObj("images/runTemp.png",100,75,0);
-  var slideImg = new ImageObj("images/slideTemp.png",100,75,0);
-  var slideUpImg = new ImageObj("images/slideTemp.png",100,150,0);
+  var runImg = new ImageObj("images/runTemp.png",100,150,0,null,null,null);
+  var slideDownImg = new ImageObj("images/runTemp.png",100,75,0,null,null,null);
+  var slideImg = new ImageObj("images/slideTemp.png",100,75,0,null,null,null);
+  var slideUpImg = new ImageObj("images/slideTemp.png",100,150,0,null,null,null);
 
   changeImage(player,runImg);
 
   // Images for Obstacles
-  var wallImg = new ImageObj("images/wall.png",50,100,0);
+  var wallImg = new ImageObj("images/wall.png",50,100,0,0,windowSize[1],4);
 
   // End game menu
   var menu = document.createElement("div");
@@ -243,11 +243,14 @@ window.onload = function(){
     gameWindow.appendChild(this.container);
   }
 
-  function ImageObj(img,w,h,t){
+  function ImageObj(img,w,h,t,minH,maxH,numH){
     this.image = img;
     this.width = w;
     this.height = h;
     this.duration = t;
+    this.minHeight = minH;
+    this.maxHeight = maxH;
+    this.numHeight = numH;
   }
 
   function Obstacle(imgObj){
@@ -256,7 +259,7 @@ window.onload = function(){
     this.width = imgObj.width;
     this.height = imgObj.height;
     this.x = windowSize[0];
-    this.y = Math.floor(Math.random()*4)/3*(windowSize[1] - this.height);
+    this.y = imgObj.minHeight + Math.floor(Math.random()*imgObj.numHeight)/(imgObj.numHeight-1) * (imgObj.maxHeight - imgObj.minHeight - this.height);
 
     this.container.className += " gameObj";
     this.container.style.backgroundImage = "url('"+this.image+"')";

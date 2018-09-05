@@ -79,6 +79,9 @@
   text-align:center;
 }
 #menu a{
+  width:100%;
+  display:inline-block;
+  box-sizing: border-box;
   margin:20px auto;
   padding:20px 40px;
   border:4px #222 ridge;
