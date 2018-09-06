@@ -41,11 +41,11 @@ window.onload = function(){
   var hiscoreBox = document.getElementById("hiscore");
   var score = 0, hiscore = leaderBoard[0];
 
-  // Images used for player animations
+  // Images used for player  animations
   var runImg = new ImageObj("images/runv2.gif",100,150,null,null,null,null);
-  var slideDownImg = new ImageObj("images/SlideDown.gif",125,125,120,null,null,null);
+  var slideDownImg = new ImageObj("images/slideDown.gif",125,125,120,null,null,null);
   var slideImg = new ImageObj("images/slide.gif",140,80,null,null,null,null);
-  var slideUpImg = new ImageObj("images/SlideUp.gif",125,125,120,null,null,null);
+  var slideUpImg = new ImageObj("images/slideUp.gif",125,125,120,null,null,null);
   var fallImg = new ImageObj("images/fall.gif",200,150,null,null,null,null);
   var jumpImg = new ImageObj("images/jump.gif",100,150,null,null,null,null,null);
   var imageLoader = new Image();
