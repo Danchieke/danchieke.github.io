@@ -128,7 +128,7 @@ window.onload = function(){
     // Game continuing or not commands
     if(gameOver){
       if(!playerHasFallen){
-        changeImage(player,fallImg);
+        changeImageNoTimer(player,fallImg);
         playerHasFallen = true;
       }
       shiftSpeed -= shiftDecay;
@@ -192,11 +192,11 @@ window.onload = function(){
     }
   }
   function keyPressFuncs(key){
-    clearTimeout(animTimer);
+    // clearTimeout(animTimer);
     switch(key){
       case "83":
-        changeImage(player,slideDownImg);
-        animTimer = setTimeout(changeImage,slideDownImg.duration,player,slideImg);
+        changeImageNoTimer(player,slideDownImg);
+        changeImageOnTimer(slideDownImg.duration,player,slideImg);
         if(player.y+player.height-windowSize[1] < -16){
           player.vsp = player.duckSpd;
         }
@@ -204,18 +204,18 @@ window.onload = function(){
       case "87":
         if(player.y+player.height-windowSize[1] > -16){
           player.vsp = player.jumpSpd;
-          changeImage(player,jumpImg);
+          changeImageNoTimer(player,jumpImg);
         }
         break;
     }
   }
   function keyRelFuncs(key){
-    clearTimeout(animTimer);
+    // clearTimeout(animTimer);
     switch(key){
       case "83":
         if(player.y+player.height-windowSize[1] > -32){
-          changeImage(player,slideUpImg);
-          animTimer = setTimeout(changeImage,slideUpImg.duration,player,runImg);
+          changeImageNoTimer(player,slideUpImg);
+          changeImageOnTimer(slideUpImg.duration,player,runImg);
         }
         break;
       case "87":
@@ -251,7 +251,6 @@ window.onload = function(){
     let curImg = thisPlayer.image.slice(0,-9);
 
     if(curImg == slideDownImg.image || curImg == slideUpImg.image){
-      console.log("sliding");
       py1 += slideDownImg.h - slideImg.h;
     }
 
@@ -270,7 +269,7 @@ window.onload = function(){
   // Calculate gravity and ground impact
   function doGrav(thisPlayer){
     if(thisPlayer.y+thisPlayer.height-windowSize[1] > -8 && thisPlayer.vsp >= 0){
-      if(thisPlayer.vsp>0 && !gameOver) changeImage(thisPlayer,runImg);
+      if(thisPlayer.vsp>0 && !gameOver && gameKeys[83]==0) changeImageNoTimer(thisPlayer,runImg);
       thisPlayer.vsp = 0;
       thisPlayer.y = windowSize[1]-thisPlayer.height;
     }
@@ -291,33 +290,17 @@ window.onload = function(){
 
   // For keeping track of auto-change animations
   var animTimer = 0;
-  //
-  // function keyDepress(e){
-  //   if(!e.repeat){
-  //     if(!gameOver){
-  //
-  //       var char = event.which || event.keyCode;
-  //       if(char == 87){ //w=87
-  //       }
-  //       else if(char == 83){ //s=83
-  //
-  //       }
-  //
-  //     }
-  //   }
-  // }
-  //
-  // function keyRelease(e){
-  //   if(!gameOver){
-  //
-  //     var char = event.which || event.keyCode;
-  //     if(char == 83){ //s=83
-  //
-  //     }
-  //
-  //   }
-  // }
-  //
+
+  function changeImageOnTimer(delay, thisPlayer, imgObj){
+    clearTimeout(animTimer);
+    animTimer = setTimeout(changeImage,delay,thisPlayer,imgObj);
+  }
+
+  function changeImageNoTimer(thisPlayer, imgObj){
+    clearTimeout(animTimer);
+    changeImage(thisPlayer,imgObj);
+  }
+
   function changeImage(thisPlayer, imgObj){
     thisPlayer.y -= imgObj.height - thisPlayer.height;
     thisPlayer.image = imgObj.image+"?a="+(1+Math.random()).toPrecision(5);
