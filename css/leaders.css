@@ -1,0 +1,58 @@
+body{
+  font-size: 3rem;
+  text-align: center;
+}
+#leaderList{
+  list-style: none;
+  padding:0;
+}
+
+h1{
+  margin:0.5rem;
+}
+
+#homeBut{
+  text-decoration: none;
+  margin:20px;
+  padding:20px 40px;
+  border:4px #222 ridge;
+  border-radius: 3rem;
+  transition-duration: 0.2s;
+  background-color: white;
+  width:33%;
+  min-width:300px;
+  margin:auto;
+}
+#homeBut:link, #homeBut:visited{
+  color:#111;
+}
+#homeBut:hover{
+  color:#fff;
+  background-color: #999;
+}
+
+h3{
+  margin-bottom: 10px;
+}
+
+p{
+  margin:auto;
+  width:70%;
+  min-width: 600px;
+  font-size: 0.75em;
+}
+
+table{
+  margin:auto;
+  font-size: 0.75em;
+  margin-bottom: 30px;
+}
+td,th{
+  padding:0px 20px;
+}
+
+footer{
+  margin-top:50px;
+  color: #aaa;
+  font-size: 0.35em;
+}
