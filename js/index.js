@@ -1,4 +1,6 @@
 window.onload = function(){
+  var audio = document.getElementsByTagName("audio")[0];
+  audio.volume = "0.2";
 
   var page = document.getElementsByTagName("html")[0];
   var bannerImgDiv = document.getElementById("bannerDiv")

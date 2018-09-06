@@ -50,3 +50,9 @@ table{
 td,th{
   padding:0px 20px;
 }
+
+footer{
+  margin-top:50px;
+  color: #aaa;
+  font-size: 0.35em;
+}

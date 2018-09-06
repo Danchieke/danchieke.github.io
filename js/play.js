@@ -1,4 +1,10 @@
 window.onload = function(){
+  // Audio setup
+  var audio = document.getElementsByTagName("audio")[0];
+  audio.volume = "0.2";
+
+  var fallSnd = new Audio("fall.mp3");
+  var hiSnd = new Audio("hiScore.mp3");
 
   var gameWindow = document.getElementById("gameWindow");
   var windowSize = [gameWindow.clientWidth, gameWindow.clientHeight];
@@ -42,7 +48,7 @@ window.onload = function(){
   var slideUpImg = new ImageObj("images/SlideUp.gif",125,125,120,null,null,null);
   var fallImg = new ImageObj("images/fall.gif",200,150,null,null,null,null);
   var jumpImg = new ImageObj("images/jump.gif",100,150,null,null,null,null,null);
-  var playerHasFallen = false;
+  var imageLoader = new Image();
 
   // Images for Obstacles
   var wallImg = new ImageObj("images/wall.png",50,100,null,(windowSize[1])*0.5,windowSize[1],2);
@@ -71,9 +77,10 @@ window.onload = function(){
   // 0:released. 1:just pressed. 2: pressed. 3:just released
 
   var gameOver = false;
+  var gameInterval = 20;
 
   //========================================================
-  var mainGameLoop = setInterval(gameLoop,20,20);
+  var mainGameLoop = setInterval(gameLoop,gameInterval,gameInterval);
   //========================================================
 
   function gameLoop(interval){
@@ -106,7 +113,13 @@ window.onload = function(){
 
     //Collision check
     for(let obstacle of obstacleList){
-      if(collisionCheck(player,obstacle)) gameOver = true;
+      if(!gameOver){
+        if(collisionCheck(player,obstacle)){
+          gameOver = true;
+          changeImageNoTimer(player,fallImg);
+          fallSnd.play();
+        }
+      }
     }
 
     // Add obstacles
@@ -125,12 +138,8 @@ window.onload = function(){
         + newDeco.width*interval/shiftSpeed;
     }
 
-    // Game continuing or not commands
+    // Game state dependent commands
     if(gameOver){
-      if(!playerHasFallen){
-        changeImageNoTimer(player,fallImg);
-        playerHasFallen = true;
-      }
       shiftSpeed -= shiftDecay;
       // choose above line or below line
       // shiftSpeed = 0;
@@ -163,6 +172,7 @@ window.onload = function(){
     draw(player);
     scorePane.classList.add("endGamePane"); //makes score bigger
     addLeaders(score);
+    if(score==hiscore) hiSnd.play();
     setTimeout(function(){
       gameWindow.appendChild(menu);
     },1100);
@@ -281,11 +291,13 @@ window.onload = function(){
 
   // Draw any changes in animation, position, size
   function draw(thisPlayer){
-    thisPlayer.container.style.top = thisPlayer.y+"px";
-    thisPlayer.container.style.left = thisPlayer.x+"px";
-    thisPlayer.container.style.backgroundImage = "url('"+thisPlayer.image+"')";
-    thisPlayer.container.style.width = thisPlayer.width+"px";
-    thisPlayer.container.style.height = thisPlayer.height+"px";
+    setTimeout(function(){
+      thisPlayer.container.style.top = thisPlayer.y+"px";
+      thisPlayer.container.style.left = thisPlayer.x+"px";
+      thisPlayer.container.style.backgroundImage = "url('"+thisPlayer.image+"')";;
+      thisPlayer.container.style.width = thisPlayer.width+"px";
+      thisPlayer.container.style.height = thisPlayer.height+"px";
+    },gameInterval);
   }
 
   // For keeping track of auto-change animations
@@ -303,7 +315,8 @@ window.onload = function(){
 
   function changeImage(thisPlayer, imgObj){
     thisPlayer.y -= imgObj.height - thisPlayer.height;
-    thisPlayer.image = imgObj.image+"?a="+(1+Math.random()).toPrecision(5);
+    thisPlayer.image = imgObj.image + "?a=" + (1+Math.random()).toPrecision(5);
+    imageLoader.src = thisPlayer.image;
     thisPlayer.width = imgObj.width;
     thisPlayer.height = imgObj.height;
   }
