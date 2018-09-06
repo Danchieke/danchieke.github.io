@@ -63,8 +63,12 @@ window.onload = function(){
     <li><a href='index.html'>Home</a></li>\
   </ul>";
 
-  window.onkeydown = keyDepress;
-  window.onkeyup = keyRelease;
+  // Game Control Setup
+  window.onkeydown = keyDown;
+  window.onkeyup = keyUp;
+  var gameKeys = {87:0, 83:0};
+  // w=87, s=83
+  // 0:released. 1:just pressed. 2: pressed. 3:just released
 
   var gameOver = false;
 
@@ -140,6 +144,7 @@ window.onload = function(){
       }
     }
     else{
+      checkKeys();
       score = Math.floor(gameTime/100)*1;
       if(score>hiscore) hiscore = score;
       scoreBox.textContent = score;
@@ -161,6 +166,61 @@ window.onload = function(){
     setTimeout(function(){
       gameWindow.appendChild(menu);
     },1100);
+  }
+
+  // Game Control Functions
+  function keyDown(e){
+    if(!e.repeat){
+      let char = e.which || e.keyCode;
+      gameKeys[char] = 1;
+    }
+  }
+  function keyUp(e){
+    let char = e.which || e.keyCode;
+    gameKeys[char] = 3;
+  }
+  function checkKeys(e){
+    for(var i in gameKeys){
+      if(gameKeys[i]==1){
+        keyPressFuncs(i);
+        gameKeys[i] = 2;
+      }
+      else if(gameKeys[i]==3){
+        keyRelFuncs(i);
+        gameKeys[i] = 0;
+      }
+    }
+  }
+  function keyPressFuncs(key){
+    clearTimeout(animTimer);
+    switch(key){
+      case "83":
+        changeImage(player,slideDownImg);
+        animTimer = setTimeout(changeImage,slideDownImg.duration,player,slideImg);
+        if(player.y+player.height-windowSize[1] < -16){
+          player.vsp = player.duckSpd;
+        }
+        break;
+      case "87":
+        if(player.y+player.height-windowSize[1] > -16){
+          player.vsp = player.jumpSpd;
+          changeImage(player,jumpImg);
+        }
+        break;
+    }
+  }
+  function keyRelFuncs(key){
+    clearTimeout(animTimer);
+    switch(key){
+      case "83":
+        if(player.y+player.height-windowSize[1] > -32){
+          changeImage(player,slideUpImg);
+          animTimer = setTimeout(changeImage,slideUpImg.duration,player,runImg);
+        }
+        break;
+      case "87":
+        break;
+    }
   }
 
   // Add score to leaderboard
@@ -210,6 +270,7 @@ window.onload = function(){
   // Calculate gravity and ground impact
   function doGrav(thisPlayer){
     if(thisPlayer.y+thisPlayer.height-windowSize[1] > -8 && thisPlayer.vsp >= 0){
+      if(thisPlayer.vsp>0 && !gameOver) changeImage(thisPlayer,runImg);
       thisPlayer.vsp = 0;
       thisPlayer.y = windowSize[1]-thisPlayer.height;
     }
@@ -229,45 +290,34 @@ window.onload = function(){
   }
 
   // For keeping track of auto-change animations
-  var timer = 0;
-
-  function keyDepress(e){
-    if(!e.repeat){
-      if(!gameOver){
-
-        var char = event.which || event.keyCode;
-        if(char == 87){ //w=87
-          if(player.y+player.height-windowSize[1] > -16){
-            player.vsp = player.jumpSpd;
-            changeImage(player,jumpImg);
-          }
-        }
-        else if(char == 83){ //s=83
-          changeImage(player,slideDownImg);
-          clearTimeout(timer);
-          timer = setTimeout(changeImage,slideDownImg.duration,player,slideImg);
-          if(player.y+player.height-windowSize[1] < -16){
-            player.vsp = player.duckSpd ;
-          }
-        }
-
-      }
-    }
-  }
-
-  function keyRelease(e){
-    if(!gameOver){
-
-      var char = event.which || event.keyCode;
-      if(char == 83){ //s=83
-        changeImage(player,slideUpImg);
-        clearTimeout(timer);
-        timer = setTimeout(changeImage,slideUpImg.duration,player,runImg);
-      }
-
-    }
-  }
-
+  var animTimer = 0;
+  //
+  // function keyDepress(e){
+  //   if(!e.repeat){
+  //     if(!gameOver){
+  //
+  //       var char = event.which || event.keyCode;
+  //       if(char == 87){ //w=87
+  //       }
+  //       else if(char == 83){ //s=83
+  //
+  //       }
+  //
+  //     }
+  //   }
+  // }
+  //
+  // function keyRelease(e){
+  //   if(!gameOver){
+  //
+  //     var char = event.which || event.keyCode;
+  //     if(char == 83){ //s=83
+  //
+  //     }
+  //
+  //   }
+  // }
+  //
   function changeImage(thisPlayer, imgObj){
     thisPlayer.y -= imgObj.height - thisPlayer.height;
     thisPlayer.image = imgObj.image+"?a="+(1+Math.random()).toPrecision(5);

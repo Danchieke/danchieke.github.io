@@ -5,7 +5,7 @@ window.onload = function(){
   var bannerPos = -120;
   bannerImgDiv.style.left =bannerPos+"px";
   bannerImgDiv.style.backgroundImage = "url('"+"images/runv2.gif"+"')";
-  var imageURLs = ["runv2.gif", "Slide.gif"];
+  var imageURLs = ["runv2.gif", "Slide.gif", "jumpRep.gif"];
   var lenImg = imageURLs.length;
 
   setInterval(function(){
