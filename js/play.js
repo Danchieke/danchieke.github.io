@@ -41,7 +41,7 @@ window.onload = function(){
   var hiscoreBox = document.getElementById("hiscore");
   var score = 0, hiscore = leaderBoard[0];
 
-  // Images used for player animations
+  // Images used for player  animations
   var runImg = new ImageObj("images/runv2.gif",100,150,null,null,null,null);
   var slideDownImg = new ImageObj("images/slideDown.gif",125,125,120,null,null,null);
   var slideImg = new ImageObj("images/slide.gif",140,80,null,null,null,null);
