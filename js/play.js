@@ -36,22 +36,18 @@ window.onload = function(){
   var score = 0, hiscore = leaderBoard[0];
 
   // Images used for player animations
-  // var runImg = new ImageObj("images/RunningTransp.gif",176,203,0);
-  // var slideDownImg = new ImageObj("images/SlideDown.gif",210,208,0);
-  // var slideImg = new ImageObj("images/Slide.gif",210,128,0);
-  // var slideUpImg = new ImageObj("images/SlideUp.gif",210,208,0);
-  var runImg = new ImageObj("images/black.png",100,150,0,null,null,null);
-  var slideDownImg = new ImageObj("images/black.png",100,75,0,null,null,null);
-  var slideImg = new ImageObj("images/black.png",100,75,0,null,null,null);
-  var slideUpImg = new ImageObj("images/black.png",100,150,0,null,null,null);
-
-  changeImage(player,runImg);
-  player.container.style.zIndex = -2;
+  var runImg = new ImageObj("images/runv2.gif",100,150,null,null,null,null);
+  var slideDownImg = new ImageObj("images/SlideDown.gif",125,125,120,null,null,null);
+  var slideImg = new ImageObj("images/slide.gif",140,80,null,null,null,null);
+  var slideUpImg = new ImageObj("images/SlideUp.gif",125,125,120,null,null,null);
+  var fallImg = new ImageObj("images/fall.gif",200,150,null,null,null,null);
+  var jumpImg = new ImageObj("images/jump.gif",100,150,null,null,null,null,null);
+  var playerHasFallen = false;
 
   // Images for Obstacles
-  var wallImg = new ImageObj("images/wall.png",50,100,0,(windowSize[1])*0.5,windowSize[1],2);
-  var birdImg = new ImageObj("images/bird.gif",100,75,0,0,windowSize[1]*0.5,3);
-  var holeImg = new ImageObj("images/hole.png",300,104,0,windowSize[1]-50,0,1);
+  var wallImg = new ImageObj("images/wall.png",50,100,null,(windowSize[1])*0.5,windowSize[1],2);
+  var birdImg = new ImageObj("images/bird.gif",100,75,0,null,windowSize[1]*0.5,3);
+  var holeImg = new ImageObj("images/hole.png",300,104,null,windowSize[1]-50,0,1);
   var objImages = [wallImg,wallImg,birdImg,holeImg];
 
   // Images for decoration
@@ -125,14 +121,17 @@ window.onload = function(){
         + newDeco.width*interval/shiftSpeed;
     }
 
-    //Draw the player location & image
-    draw(player);
-
     // Game continuing or not commands
     if(gameOver){
+      if(!playerHasFallen){
+        changeImage(player,fallImg);
+        playerHasFallen = true;
+      }
       shiftSpeed -= shiftDecay;
       // choose above line or below line
       // shiftSpeed = 0;
+      if(shiftSpeed < 0) shiftSpeed = 0;
+
       if(shiftSpeed <= 0 && player.y+player.height-windowSize[1] > -8){
         clearInterval(mainGameLoop);
         player.y = windowSize[1] - player.height;
@@ -148,6 +147,9 @@ window.onload = function(){
 
       shiftSpeed += shiftAccel;
     }
+
+    //Draw the player location & image
+    draw(player);
     gameTime += interval;
   }
 
@@ -159,7 +161,6 @@ window.onload = function(){
     setTimeout(function(){
       gameWindow.appendChild(menu);
     },1100);
-    console.log(decoList);
   }
 
   // Add score to leaderboard
@@ -187,6 +188,13 @@ window.onload = function(){
         ox2 = thisObs.x + thisObs.width*0.95,
         oy1 = thisObs.y + thisObs.height*0.05,
         oy2 = thisObs.y + thisObs.height*0.95;
+    let curImg = thisPlayer.image.slice(0,-9);
+
+    if(curImg == slideDownImg.image || curImg == slideUpImg.image){
+      console.log("sliding");
+      py1 += slideDownImg.h - slideImg.h;
+    }
+
     if(px1 < ox2){
       if(px2 > ox1){
         if(py1 < oy2){
@@ -231,12 +239,13 @@ window.onload = function(){
         if(char == 87){ //w=87
           if(player.y+player.height-windowSize[1] > -16){
             player.vsp = player.jumpSpd;
+            changeImage(player,jumpImg);
           }
         }
         else if(char == 83){ //s=83
           changeImage(player,slideDownImg);
           clearTimeout(timer);
-          timer = setTimeout(changeImage,200,player,slideImg);
+          timer = setTimeout(changeImage,slideDownImg.duration,player,slideImg);
           if(player.y+player.height-windowSize[1] < -16){
             player.vsp = player.duckSpd ;
           }
@@ -253,7 +262,7 @@ window.onload = function(){
       if(char == 83){ //s=83
         changeImage(player,slideUpImg);
         clearTimeout(timer);
-        timer = setTimeout(changeImage,200,player,runImg);
+        timer = setTimeout(changeImage,slideUpImg.duration,player,runImg);
       }
 
     }
@@ -261,7 +270,7 @@ window.onload = function(){
 
   function changeImage(thisPlayer, imgObj){
     thisPlayer.y -= imgObj.height - thisPlayer.height;
-    thisPlayer.image = imgObj.image+"?a="+Math.random();
+    thisPlayer.image = imgObj.image+"?a="+(1+Math.random()).toPrecision(5);
     thisPlayer.width = imgObj.width;
     thisPlayer.height = imgObj.height;
   }
@@ -273,15 +282,15 @@ window.onload = function(){
   // Constructors
   function Player(){
     this.container = document.createElement("div");
-    this.image = "images/runTemp.png"//"images/RunningTransp.gif";
-    this.x = 0;
-    this.y = windowSize[1] - 203;
+    this.image = "images/runv2.gif";
+    this.width = 100;
+    this.height = 150;
+    this.x = 25;
+    this.y = windowSize[1] - this.height;
     this.vsp = 0;
     this.jumpSpd = -21;
     this.duckSpd = 15;
     this.grav = 0.8;
-    this.width = 176;
-    this.height = 203;
 
     this.container.className += " gameObj";
     this.container.style.backgroundImage = "url('"+this.image+"')";
@@ -289,6 +298,7 @@ window.onload = function(){
     this.container.style.top = this.y+"px";
     this.container.style.width = "176px";
     this.container.style.height = "203px";
+    this.container.style.zIndex = -2;
     gameWindow.appendChild(this.container);
   }
 
