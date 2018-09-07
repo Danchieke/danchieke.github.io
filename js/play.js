@@ -3,8 +3,8 @@ window.onload = function(){
   var audio = document.getElementsByTagName("audio")[0];
   audio.volume = "0.2";
 
-  var fallSnd = new Audio("fall.mp3");
-  var hiSnd = new Audio("hiScore.mp3");
+  var fallSnd = new Audio("audio/fall.mp3");
+  var hiSnd = new Audio("audio/hiScore.mp3");
 
   var gameWindow = document.getElementById("gameWindow");
   var windowSize = [gameWindow.clientWidth, gameWindow.clientHeight];
