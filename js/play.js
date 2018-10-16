@@ -11,10 +11,8 @@ window.onload = function(){
 
   // Scale Window
   var page = document.getElementsByTagName("body")[0];
-  // var pageSize = [page.clientWidth, page.clientHeight];
   var floorH = document.getElementById("gameFloor").clientHeight;
 
-  // var floorH = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("height").slice(0,-2));
   var floorTop = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("top").slice(0,-2));
   var windowFullSize = [windowSize[0], windowSize[1] + floorH + floorTop];
   var pageSize = [window.innerWidth, window.innerHeight];
@@ -24,7 +22,6 @@ window.onload = function(){
     page.style.height = windowFullSize[1] + "px";
     page.style.transform = "scale("+ scale +")";
     page.style.transformOrigin = "0 0";
-    // document.getElementsByTagName("body").style.height = page.style.height + "px";
   }
 
   // Player object, and div element containing the image
