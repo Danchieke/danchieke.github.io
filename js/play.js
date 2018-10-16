@@ -9,6 +9,24 @@ window.onload = function(){
   var gameWindow = document.getElementById("gameWindow");
   var windowSize = [gameWindow.clientWidth, gameWindow.clientHeight];
 
+  // Scale Window
+  var page = document.getElementsByTagName("body")[0];
+  // var pageSize = [page.clientWidth, page.clientHeight];
+  var floorH = document.getElementById("gameFloor").clientHeight;
+
+  // var floorH = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("height").slice(0,-2));
+  var floorTop = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("top").slice(0,-2));
+  var windowFullSize = [windowSize[0], windowSize[1] + floorH + floorTop];
+  var pageSize = [window.innerWidth, window.innerHeight];
+  if(pageSize[0] < windowFullSize[0] || pageSize[1] < windowFullSize[1]){
+    scale = Math.min(pageSize[0]/windowFullSize[0], pageSize[1]/windowFullSize[1]);
+    page.style.width = windowFullSize[0] + "px";
+    page.style.height = windowFullSize[1] + "px";
+    page.style.transform = "scale("+ scale +")";
+    page.style.transformOrigin = "0 0";
+    // document.getElementsByTagName("body").style.height = page.style.height + "px";
+  }
+
   // Player object, and div element containing the image
   var player = new Player();
 
