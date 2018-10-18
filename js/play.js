@@ -12,6 +12,7 @@ window.onload = function(){
   // Scale Window
   var page = document.getElementsByTagName("body")[0];
   var floorH = document.getElementById("gameFloor").clientHeight;
+  var scale;
 
   var floorTop = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("top").slice(0,-2));
   var windowFullSize = [windowSize[0], windowSize[1] + floorH + floorTop];
@@ -23,6 +24,7 @@ window.onload = function(){
     page.style.transform = "scale("+ scale +")";
     page.style.transformOrigin = "0 0";
   }
+  var gameScreenMiddle = parseFloat(page.style.height.slice(0,-2)) * 0.5 * scale;
 
   // Player object, and div element containing the image
   var player = new Player();
@@ -87,6 +89,8 @@ window.onload = function(){
   // Game Control Setup
   window.onkeydown = keyDown;
   window.onkeyup = keyUp;
+  window.onmousedown = mouseDown
+  window.onmouseup = mouseUp
   var gameKeys = {87:0, 83:0};
   // w=87, s=83
   // 0:released. 1:just pressed. 2: pressed. 3:just released
@@ -194,6 +198,22 @@ window.onload = function(){
   }
 
   // Game Control Functions
+  function mouseDown(e){
+    console.log("Mouse: "+e.clientY+", middle: "+gameScreenMiddle);
+    if(e.clientY < gameScreenMiddle){
+      gameKeys["87"] = 1
+    }
+    else{
+      gameKeys["83"] = 1
+    }
+  }
+  function mouseUp(e){
+    for(var i in gameKeys){
+      if(gameKeys[i] != 0){
+        gameKeys[i] = 3;
+      }
+    }
+  }
   function keyDown(e){
     if(!e.repeat){
       let char = e.which || e.keyCode;
@@ -204,6 +224,7 @@ window.onload = function(){
     let char = e.which || e.keyCode;
     gameKeys[char] = 3;
   }
+  // ====
   function checkKeys(e){
     for(var i in gameKeys){
       if(gameKeys[i]==1){
