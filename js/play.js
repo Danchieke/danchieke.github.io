@@ -3,11 +3,28 @@ window.onload = function(){
   var audio = document.getElementsByTagName("audio")[0];
   audio.volume = "0.2";
 
-  var fallSnd = new Audio("fall.mp3");
-  var hiSnd = new Audio("hiScore.mp3");
+  var fallSnd = new Audio("audio/fall.mp3");
+  var hiSnd = new Audio("audio/hiScore.mp3");
 
   var gameWindow = document.getElementById("gameWindow");
   var windowSize = [gameWindow.clientWidth, gameWindow.clientHeight];
+
+  // Scale Window
+  var page = document.getElementsByTagName("body")[0];
+  var floorH = document.getElementById("gameFloor").clientHeight;
+  var scale;
+
+  var floorTop = parseFloat(window.getComputedStyle(gameFloor).getPropertyValue("top").slice(0,-2));
+  var windowFullSize = [windowSize[0], windowSize[1] + floorH + floorTop];
+  var pageSize = [window.innerWidth, window.innerHeight];
+  if(pageSize[0] < windowFullSize[0] || pageSize[1] < windowFullSize[1]){
+    scale = Math.min(pageSize[0]/windowFullSize[0], pageSize[1]/windowFullSize[1]);
+    page.style.width = windowFullSize[0] + "px";
+    page.style.height = windowFullSize[1] + "px";
+    page.style.transform = "scale("+ scale +")";
+    page.style.transformOrigin = "0 0";
+  }
+  var gameScreenMiddle = parseFloat(page.style.height.slice(0,-2)) * 0.5 * scale;
 
   // Player object, and div element containing the image
   var player = new Player();
@@ -72,6 +89,8 @@ window.onload = function(){
   // Game Control Setup
   window.onkeydown = keyDown;
   window.onkeyup = keyUp;
+  window.ontouchstart = mouseDown
+  window.ontouchend = mouseUp
   var gameKeys = {87:0, 83:0};
   // w=87, s=83
   // 0:released. 1:just pressed. 2: pressed. 3:just released
@@ -179,6 +198,22 @@ window.onload = function(){
   }
 
   // Game Control Functions
+  function mouseDown(e){
+    // e.clientY
+    if(e.touches[0].clientY < gameScreenMiddle){
+      gameKeys["87"] = 1
+    }
+    else{
+      gameKeys["83"] = 1
+    }
+  }
+  function mouseUp(e){
+    for(var i in gameKeys){
+      if(gameKeys[i] != 0){
+        gameKeys[i] = 3;
+      }
+    }
+  }
   function keyDown(e){
     if(!e.repeat){
       let char = e.which || e.keyCode;
@@ -189,6 +224,7 @@ window.onload = function(){
     let char = e.which || e.keyCode;
     gameKeys[char] = 3;
   }
+  // ====
   function checkKeys(e){
     for(var i in gameKeys){
       if(gameKeys[i]==1){
