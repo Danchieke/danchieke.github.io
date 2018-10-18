@@ -89,8 +89,8 @@ window.onload = function(){
   // Game Control Setup
   window.onkeydown = keyDown;
   window.onkeyup = keyUp;
-  window.onmousedown = mouseDown
-  window.onmouseup = mouseUp
+  window.ontouchstart = mouseDown
+  window.ontouchend = mouseUp
   var gameKeys = {87:0, 83:0};
   // w=87, s=83
   // 0:released. 1:just pressed. 2: pressed. 3:just released
@@ -199,8 +199,8 @@ window.onload = function(){
 
   // Game Control Functions
   function mouseDown(e){
-    console.log("Mouse: "+e.clientY+", middle: "+gameScreenMiddle);
-    if(e.clientY < gameScreenMiddle){
+    // e.clientY
+    if(e.touches[0].clientY < gameScreenMiddle){
       gameKeys["87"] = 1
     }
     else{
