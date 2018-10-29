@@ -32,6 +32,7 @@ html, body{
   display: inline-block;
   vertical-align: top;
   overflow-x: hidden;
+  pointer-events: none;
 }
 
 #gameFloor{
@@ -92,6 +93,7 @@ html, body{
   box-sizing:border-box;
   height:100%;
   text-align:center;
+  pointer-events: auto;
 }
 #menu a{
   width:100%;
