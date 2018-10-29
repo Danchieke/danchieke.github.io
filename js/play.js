@@ -95,6 +95,11 @@ window.onload = function(){
   // w=87, s=83
   // 0:released. 1:just pressed. 2: pressed. 3:just released
 
+  // Prevent context menu interfering with game (especially mobile)
+  document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  }, false);
+
   var gameOver = false;
   var gameInterval = 20;
 
