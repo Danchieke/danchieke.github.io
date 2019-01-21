@@ -1,0 +1,167 @@
+html{
+	background-color:#222;
+	text-align:center;
+}
+body{
+	border-radius: 50px;
+	background-color:#333;
+	display:inline-block;
+	padding:50px;
+	padding-top:0px;
+}
+h1{
+	color: #ccc;
+}
+#checkboxblack, #checkboxwhite{
+	font-size: 1.6em;
+	margin:8px;
+	font-weight:bold;
+	box-sizing:content-box;
+	height:40px;
+	vertical-align:top;
+	font-family:Impact;
+}
+#checkboxblack *, #checkboxwhite *{
+	line-height:normal;
+	vertical-align:middle;
+}
+
+.gridsquare{
+	color:#ddd;
+	height:50px;
+	width:50px;
+	display:inline-block;
+	box-sizing:border-box;
+	margin:0;
+	border:1px #888 solid;
+	position:relative;
+	vertical-align:middle;
+	text-align:center;
+	font-size:40px;
+}
+.gridsquare *{
+	margin:50% 0;
+	padding:0;
+	/* font-weight:bold; */
+}
+#boardbox{
+	height:412px;
+	width:750px;
+	margin:0;
+	padding:0;
+}
+#grid, #infobox{
+	vertical-align:top;
+	height:400px;
+	width:400px;
+	position:relative;
+	line-height:0;
+	background-color:#808;
+	box-shadow: 3px 3px 10px #a84;
+	border: 6px solid #b95;
+	border-radius:8px 0px 0px 8px;
+	display:inline-block;
+}
+#infobox{
+	font-size:1.25rem;
+	width:180px;
+	background-color: #b95;
+	border-radius:0px 8px 8px 0px;
+
+}
+.whitegrid{
+	background-color:#eee;
+	/* background-color:#666; */
+}
+.blackgrid{
+	background-color:#111;
+}
+.activegrid{
+	
+}
+.activegrid:hover{
+	background-color:#8c8;
+	cursor:pointer;
+}
+.selected{
+	background-color:#88c;
+}
+.whitepiece, #checkboxwhite, #whiteturn, #whitetime{
+	color:white;
+	/* color:grey; */
+	text-shadow:1px 1px 0px black,
+				1px -1px 0px black,
+				-1px 1px 0px black,
+				-1px -1px 0px black;
+}
+.blackpiece, #checkboxblack, #blackturn, #blacktime{
+	color:black;
+	font-family:Impact;
+	text-shadow:1px 1px 0px white,
+				1px -1px 0px white,
+				-1px 1px 0px white,
+				-1px -1px 0px white;
+}
+.turnbox{
+	margin:8px 0;
+	font-size:1.5em;
+	height:1.5em;
+}
+.turnbox *{
+	line-height:normal;
+	vertical-align:middle;
+}
+.validmove{
+	animation: validanim 2s infinite;
+}
+
+.activegrid.validmove:hover{
+	background-color:#4f4;
+}
+.promotion{
+	background-color: #558;
+	border-radius:40%;
+	transition-duration: 0.25s;
+}
+.promotion:hover{
+	transform: scaleY(1.5);
+}
+
+@keyframes validanim{
+	0%{
+		box-shadow: 0 0 40px 0px #60d inset;
+	}
+	50%{
+		box-shadow: 0 0 30px 10px #caf inset;
+	}
+	100%{
+		box-shadow: 0 0 40px 0px #60d inset;
+	}
+}
+
+.button{
+	/* font-family:Impact; */
+	cursor:pointer;
+	font-weight:bold;
+	text-shadow:1px 1px 0px #999,
+				1px -1px 0px #bbb,
+				-1px 1px 0px #aaa,
+				-1px -1px 0px #ccc;
+	padding:20px 10px;
+	margin:18px 10px;
+	background-color:#874;
+	border-radius:5px;
+	box-shadow:5px 5px 5px #ca7 inset, -5px -5px 5px #541 inset;
+	transition-duration:0.1s;
+}
+.button:hover{
+	text-shadow:1px 1px 0px #ccc,
+				1px -1px 0px #eee,
+				-1px 1px 0px #ddd,
+				-1px -1px 0px #fff;
+	box-shadow:-5px -5px 5px #ca7 inset, 5px 5px 5px #541 inset;
+}
+
+.infospacer{
+	height:0px;
+}
